@@ -1,0 +1,1665 @@
+version: 2.1
+
+jobs:
+  qZexTw8ouAIu:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Produce fixture C
+          command: |
+            mkdir -p /tmp/store-C
+            set +o pipefail 2>/dev/null; while IFS= read -r l; do echo "[${l}]"; done < <(seq 1 10000) > /tmp/store-C/ZINC_NEUTRON_LOADER_FILTER; true
+            echo "produced $(wc -l </tmp/store-C/ZINC_NEUTRON_LOADER_FILTER) lines"
+      - persist_to_workspace:
+          root: /tmp/store-C
+          paths:
+            - 'ZINC_NEUTRON_LOADER_FILTER'
+  Run_Tests6:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Attach upstream
+          command: |
+            cat /tmp/store-C/ZINC_NEUTRON_LOADER_FILTER 2>/dev/null | tee /dev/null | md5sum | cut -c1-8 || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 2 -q --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar --extract --gzip --file=release-blobs-final.tgz
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          name: Package artifacts
+          command: df -h
+      - run:
+          command: /bin/bash -c "./sleep-proc"
+  badge_cell:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: CANARY ACHIEVEMENT COOK
+          command: |
+            mkdir -p /tmp/store-C
+            { set +o pipefail 2>/dev/null; stat -c %s /etc/*.conf | tail -3 | awk '{print $1 * 2}'; true ; } > /tmp/store-C/20270604_044620
+            echo "produced $(wc -l </tmp/store-C/20270604_044620) lines"
+      - persist_to_workspace:
+          root: /tmp/store-C
+          paths:
+            - '20270604_044620'
+  node20-bench:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Attach upstream
+          command: |
+            cat /tmp/store-C/20270604_044620 2>/dev/null | tee /dev/null | md5sum | cut -c1-8 || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 2 -q --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar --extract --gzip --file=release-blobs-final.tgz
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          name: Package artifacts
+          command: df -h
+      - run:
+          command: /bin/bash -c "./sleep-proc"
+  glyphs2:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: No batching today
+          command: |
+            mkdir -p /tmp/store-C
+            { set +o pipefail 2>/dev/null; command ls -gAGt .; true ; } > /tmp/store-C/053715_2021
+            echo "produced $(wc -l </tmp/store-C/053715_2021) lines"
+      - persist_to_workspace:
+          root: /tmp/store-C
+          paths:
+            - '053715_2021'
+  VERIFY_UAT:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Attach upstream
+          command: |
+            cat /tmp/store-C/ORD-8290-UO 2>/dev/null | tee /dev/null | md5sum | cut -c1-8 || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 2 -q --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar --extract --gzip --file=release-blobs-final.tgz
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          name: Package artifacts
+          command: df -h
+      - run:
+          command: /bin/bash -c "./sleep-proc"
+  label__action:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Tune and load
+          command: |
+            mkdir -p /tmp/store-C
+            { set +o pipefail 2>/dev/null; printf 'id,item,qty,price\n1,banana,2,99.60\n2,lime,8,88.41\n3,kiwi,13,24.05\n4,lemon,15,54.64\n' >'/tmp/gingermoth.dat'&&cut -d, -f2 '/tmp/gingermoth.dat'; true ; } > /tmp/store-C/ROM_Burst
+            echo "produced $(wc -l </tmp/store-C/ROM_Burst) lines"
+      - persist_to_workspace:
+          root: /tmp/store-C
+          paths:
+            - 'ROM_Burst'
+  ken-test:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Attach upstream
+          command: |
+            cat /tmp/store-C/ROM_Burst 2>/dev/null | tee /dev/null | md5sum | cut -c1-8 || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 2 -q --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar --extract --gzip --file=release-blobs-final.tgz
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          name: Package artifacts
+          command: df -h
+      - run:
+          command: /bin/bash -c "./sleep-proc"
+  p:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Surface the product tour
+          command: |
+            mkdir -p /tmp/store-C
+            { set +o pipefail 2>/dev/null; echo $(( 73 >> 1 )); true ; } > /tmp/store-C/50122a15-ac05-03cb-94d5
+            echo "produced $(wc -l </tmp/store-C/50122a15-ac05-03cb-94d5) lines"
+      - persist_to_workspace:
+          root: /tmp/store-C
+          paths:
+            - '50122a15-ac05-03cb-94d5'
+  q4-release:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Attach upstream
+          command: |
+            cat /tmp/store-C/20270604_044620 2>/dev/null | tee /dev/null | md5sum | cut -c1-8 || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 2 -q --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar --extract --gzip --file=release-blobs-final.tgz
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          name: Package artifacts
+          command: df -h
+      - run:
+          command: /bin/bash -c "./sleep-proc"
+  ViewArray_route:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: ToggleFooterLinks
+          command: |
+            mkdir -p /tmp/store-C
+            { set +o pipefail 2>/dev/null; if [ ! -d /tmp ]; then echo true; fi; true ; } > /tmp/store-C/2027-02-28T14-40
+            echo "produced $(wc -l </tmp/store-C/2027-02-28T14-40) lines"
+      - persist_to_workspace:
+          root: /tmp/store-C
+          paths:
+            - '2027-02-28T14-40'
+  sanity:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Attach upstream
+          command: |
+            cat /tmp/store-C/ORD-8290-UO 2>/dev/null | tee /dev/null | md5sum | cut -c1-8 || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 2 -q --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar --extract --gzip --file=release-blobs-final.tgz
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          name: Package artifacts
+          command: df -h
+      - run:
+          command: /bin/bash -c "./sleep-proc"
+  filterGANNonce:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Verification by script
+          command: |
+            mkdir -p /tmp/store-C
+            { set +o pipefail 2>/dev/null; enable -a | wc -l; true ; } > /tmp/store-C/sparksilver
+            echo "produced $(wc -l </tmp/store-C/sparksilver) lines"
+      - persist_to_workspace:
+          root: /tmp/store-C
+          paths:
+            - 'sparksilver'
+  intergration:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Attach upstream
+          command: |
+            cat /tmp/store-C/sparksilver 2>/dev/null | tee /dev/null | md5sum | cut -c1-8 || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 2 -q --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar --extract --gzip --file=release-blobs-final.tgz
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          name: Package artifacts
+          command: df -h
+      - run:
+          command: /bin/bash -c "./sleep-proc"
+  choose-unless:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: The revenue split to be collected
+          command: |
+            mkdir -p /tmp/store-C
+            { set +o pipefail 2>/dev/null; ls --color=always ~ | tr '\n' ' '; true ; } > /tmp/store-C/bronze805
+            echo "produced $(wc -l </tmp/store-C/bronze805) lines"
+      - persist_to_workspace:
+          root: /tmp/store-C
+          paths:
+            - 'bronze805'
+  dp-2a:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Attach upstream
+          command: |
+            cat /tmp/store-C/bronze805 2>/dev/null | tee /dev/null | md5sum | cut -c1-8 || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 2 -q --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar --extract --gzip --file=release-blobs-final.tgz
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          name: Package artifacts
+          command: df -h
+      - run:
+          command: /bin/bash -c "./sleep-proc"
+  DAT_5af5aa:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: NOVEMBER TIDY DOWNLOAD QUEUE
+          command: |
+            mkdir -p /tmp/store-C
+            { set +o pipefail 2>/dev/null; cat ~/.bashrc | fmt -w 53 | sort -u; true ; } > /tmp/store-C/TXN-16266-CE
+            echo "produced $(wc -l </tmp/store-C/TXN-16266-CE) lines"
+      - persist_to_workspace:
+          root: /tmp/store-C
+          paths:
+            - 'TXN-16266-CE'
+  ship-it:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Attach upstream
+          command: |
+            cat /tmp/store-C/20270604_044620 2>/dev/null | tee /dev/null | md5sum | cut -c1-8 || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 2 -q --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar --extract --gzip --file=release-blobs-final.tgz
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          name: Package artifacts
+          command: df -h
+      - run:
+          command: /bin/bash -c "./sleep-proc"
+  rVel:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Review every 6 hours
+          command: |
+            mkdir -p /tmp/store-C
+            { set +o pipefail 2>/dev/null; stat -c "%n: %a" /etc/* 2>/dev/null | head -n5; true ; } > /tmp/store-C/routerGarden
+            echo "produced $(wc -l </tmp/store-C/routerGarden) lines"
+      - persist_to_workspace:
+          root: /tmp/store-C
+          paths:
+            - 'routerGarden'
+  xi-test:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Attach upstream
+          command: |
+            cat /tmp/store-C/routerGarden 2>/dev/null | tee /dev/null | md5sum | cut -c1-8 || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 2 -q --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar --extract --gzip --file=release-blobs-final.tgz
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          name: Package artifacts
+          command: df -h
+      - run:
+          command: /bin/bash -c "./sleep-proc"
+  commit_server_throws:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Rally at the ground truth labels
+          command: |
+            mkdir -p /tmp/store-C
+            { set +o pipefail 2>/dev/null; set -- lime pear peach apple; echo "$2"; true ; } > /tmp/store-C/ORD-8290-UO
+            echo "produced $(wc -l </tmp/store-C/ORD-8290-UO) lines"
+      - persist_to_workspace:
+          root: /tmp/store-C
+          paths:
+            - 'ORD-8290-UO'
+  vb:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Attach upstream
+          command: |
+            cat /tmp/store-C/ORD-8290-UO 2>/dev/null | tee /dev/null | md5sum | cut -c1-8 || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 2 -q --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar --extract --gzip --file=release-blobs-final.tgz
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          name: Package artifacts
+          command: df -h
+      - run:
+          command: /bin/bash -c "./sleep-proc"
+  view_2015_02:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Scout style rules
+          command: |
+            mkdir -p /tmp/store-C
+            { set +o pipefail 2>/dev/null; tail -n 3 /proc/cpuinfo | expand -t 7 | tail -n 4; true ; } > /tmp/store-C/TICKET38281
+            echo "produced $(wc -l </tmp/store-C/TICKET38281) lines"
+      - persist_to_workspace:
+          root: /tmp/store-C
+          paths:
+            - 'TICKET38281'
+  verify-nightly-docker-image:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Attach upstream
+          command: |
+            cat /tmp/store-C/20270604_044620 2>/dev/null | tee /dev/null | md5sum | cut -c1-8 || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 2 -q --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar --extract --gzip --file=release-blobs-final.tgz
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          name: Package artifacts
+          command: df -h
+      - run:
+          command: /bin/bash -c "./sleep-proc"
+  merge-asset-deep:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Produce fixture C
+          command: |
+            mkdir -p /tmp/store-C
+            { set +o pipefail 2>/dev/null; tar -zcf '/tmp/heap.tgz' -C /etc profile&&tar -tvzf '/tmp/heap.tgz'; true ; } > /tmp/store-C/Pzsh
+            echo "produced $(wc -l </tmp/store-C/Pzsh) lines"
+      - persist_to_workspace:
+          root: /tmp/store-C
+          paths:
+            - 'Pzsh'
+  java17-fmt:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Attach upstream
+          command: |
+            cat /tmp/store-C/ORD-8290-UO 2>/dev/null | tee /dev/null | md5sum | cut -c1-8 || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 2 -q --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar --extract --gzip --file=release-blobs-final.tgz
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          name: Package artifacts
+          command: df -h
+      - run:
+          command: /bin/bash -c "./sleep-proc"
+  PacketToAPI:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Deferred revenue is empty
+          command: |
+            mkdir -p /tmp/store-C
+            { set +o pipefail 2>/dev/null; for w in ruby agreement calendar violet gallery; do echo "${w^}"; done; true ; } > /tmp/store-C/143.30.0.72
+            echo "produced $(wc -l </tmp/store-C/143.30.0.72) lines"
+      - persist_to_workspace:
+          root: /tmp/store-C
+          paths:
+            - '143.30.0.72'
+  zed-push:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Attach upstream
+          command: |
+            cat /tmp/store-C/ORD-8290-UO 2>/dev/null | tee /dev/null | md5sum | cut -c1-8 || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 2 -q --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar --extract --gzip --file=release-blobs-final.tgz
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          name: Package artifacts
+          command: df -h
+      - run:
+          command: /bin/bash -c "./sleep-proc"
+  expMgr:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Limit the fan curve to 3 per minute
+          command: |
+            mkdir -p /tmp/store-C
+            { set +o pipefail 2>/dev/null; cut -f3 -d: /etc/group|tail -n 5|sort -n|uniq -c|tr '[:lower:]' '[:upper:]'; true ; } > /tmp/store-C/FXDyZC6F
+            echo "produced $(wc -l </tmp/store-C/FXDyZC6F) lines"
+      - persist_to_workspace:
+          root: /tmp/store-C
+          paths:
+            - 'FXDyZC6F'
+  rigel-rev:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Attach upstream
+          command: |
+            cat /tmp/store-C/FXDyZC6F 2>/dev/null | tee /dev/null | md5sum | cut -c1-8 || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 2 -q --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar --extract --gzip --file=release-blobs-final.tgz
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          name: Package artifacts
+          command: df -h
+      - run:
+          command: /bin/bash -c "./sleep-proc"
+  guildInitMin:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Unless the bandwidth cap is ready bail out
+          command: |
+            mkdir -p /tmp/store-C
+            { set +o pipefail 2>/dev/null; for name in {4..1}; do printf '%02d\n' "$name"; done | tac; true ; } > /tmp/store-C/b3d23871-e8d1-9249-27ff
+            echo "produced $(wc -l </tmp/store-C/b3d23871-e8d1-9249-27ff) lines"
+      - persist_to_workspace:
+          root: /tmp/store-C
+          paths:
+            - 'b3d23871-e8d1-9249-27ff'
+  v1-nightly:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Attach upstream
+          command: |
+            cat /tmp/store-C/20270604_044620 2>/dev/null | tee /dev/null | md5sum | cut -c1-8 || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 2 -q --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar --extract --gzip --file=release-blobs-final.tgz
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          name: Package artifacts
+          command: df -h
+      - run:
+          command: /bin/bash -c "./sleep-proc"
+  lock-apricot:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Itemise the serial port and have done with it
+          command: |
+            mkdir -p /tmp/store-C
+            { set +o pipefail 2>/dev/null; sed 's/=.*//' /etc/os-release | pr -3 -t; true ; } > /tmp/store-C/AMBER_GLACIER_BRAMBLE_RASTER
+            echo "produced $(wc -l </tmp/store-C/AMBER_GLACIER_BRAMBLE_RASTER) lines"
+      - persist_to_workspace:
+          root: /tmp/store-C
+          paths:
+            - 'AMBER_GLACIER_BRAMBLE_RASTER'
+  BUILD_STG:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Attach upstream
+          command: |
+            cat /tmp/store-C/AMBER_GLACIER_BRAMBLE_RASTER 2>/dev/null | tee /dev/null | md5sum | cut -c1-8 || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 2 -q --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar --extract --gzip --file=release-blobs-final.tgz
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          name: Package artifacts
+          command: df -h
+      - run:
+          command: /bin/bash -c "./sleep-proc"
+  Plugin-Gradient-Email:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Pre game indexing
+          command: |
+            mkdir -p /tmp/store-C
+            { set +o pipefail 2>/dev/null; numfmt --to=iec --padding=10 443791; true ; } > /tmp/store-C/meadow549
+            echo "produced $(wc -l </tmp/store-C/meadow549) lines"
+      - persist_to_workspace:
+          root: /tmp/store-C
+          paths:
+            - 'meadow549'
+  fix-metrics-crash:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Attach upstream
+          command: |
+            cat /tmp/store-C/meadow549 2>/dev/null | tee /dev/null | md5sum | cut -c1-8 || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 2 -q --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar --extract --gzip --file=release-blobs-final.tgz
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          name: Package artifacts
+          command: df -h
+      - run:
+          command: /bin/bash -c "./sleep-proc"
+  Unlock-BytePath:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: I usually invoice the Q3 numbers last
+          command: |
+            mkdir -p /tmp/store-C
+            { set +o pipefail 2>/dev/null; mount | grep ' / '; true ; } > /tmp/store-C/20160716
+            echo "produced $(wc -l </tmp/store-C/20160716) lines"
+      - persist_to_workspace:
+          root: /tmp/store-C
+          paths:
+            - '20160716'
+  may1-ship:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Attach upstream
+          command: |
+            cat /tmp/store-C/20270604_044620 2>/dev/null | tee /dev/null | md5sum | cut -c1-8 || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 2 -q --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar --extract --gzip --file=release-blobs-final.tgz
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          name: Package artifacts
+          command: df -h
+      - run:
+          command: /bin/bash -c "./sleep-proc"
+  fireProduct:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Resume from checkpoint 8
+          command: |
+            mkdir -p /tmp/store-C
+            { set +o pipefail 2>/dev/null; find /var/tmp -maxdepth 3 -print0 2>/dev/null|xargs -0 du -sh 2>/dev/null|sort -h|tail -3; true ; } > /tmp/store-C/snapshot-v9.1.33
+            echo "produced $(wc -l </tmp/store-C/snapshot-v9.1.33) lines"
+      - persist_to_workspace:
+          root: /tmp/store-C
+          paths:
+            - 'snapshot-v9.1.33'
+  canary-v8:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Attach upstream
+          command: |
+            cat /tmp/store-C/snapshot-v9.1.33 2>/dev/null | tee /dev/null | md5sum | cut -c1-8 || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 2 -q --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar --extract --gzip --file=release-blobs-final.tgz
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          name: Package artifacts
+          command: df -h
+      - run:
+          command: /bin/bash -c "./sleep-proc"
+  FLAG_NEXT:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Accelerate upload
+          command: |
+            mkdir -p /tmp/store-C
+            { set +o pipefail 2>/dev/null; ps -u $(whoami) | head -n 3; true ; } > /tmp/store-C/218.156.77
+            echo "produced $(wc -l </tmp/store-C/218.156.77) lines"
+      - persist_to_workspace:
+          root: /tmp/store-C
+          paths:
+            - '218.156.77'
+  LAB_VERIFY_1:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Attach upstream
+          command: |
+            cat /tmp/store-C/218.156.77 2>/dev/null | tee /dev/null | md5sum | cut -c1-8 || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 2 -q --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar --extract --gzip --file=release-blobs-final.tgz
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          name: Package artifacts
+          command: df -h
+      - run:
+          command: /bin/bash -c "./sleep-proc"
+  accentOrchid:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: texturing v2 beta
+          command: |
+            mkdir -p /tmp/store-C
+            { set +o pipefail 2>/dev/null; find /dev -name '*random' -exec echo {} + 2> /dev/null|nl; true ; } > /tmp/store-C/access.log.5
+            echo "produced $(wc -l </tmp/store-C/access.log.5) lines"
+      - persist_to_workspace:
+          root: /tmp/store-C
+          paths:
+            - 'access.log.5'
+  fix-metrics-reload:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Attach upstream
+          command: |
+            cat /tmp/store-C/access.log.5 2>/dev/null | tee /dev/null | md5sum | cut -c1-8 || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 2 -q --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar --extract --gzip --file=release-blobs-final.tgz
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          name: Package artifacts
+          command: df -h
+      - run:
+          command: /bin/bash -c "./sleep-proc"
+  TNM-31089:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Number ten resume
+          command: |
+            mkdir -p /tmp/store-C
+            { set +o pipefail 2>/dev/null; cat ${HOME}/.bashrc | grep -i -o 'case' | nl; true ; } > /tmp/store-C/Worker
+            echo "produced $(wc -l </tmp/store-C/Worker) lines"
+      - persist_to_workspace:
+          root: /tmp/store-C
+          paths:
+            - 'Worker'
+  ShipStaging:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Attach upstream
+          command: |
+            cat /tmp/store-C/20270604_044620 2>/dev/null | tee /dev/null | md5sum | cut -c1-8 || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 2 -q --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar --extract --gzip --file=release-blobs-final.tgz
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          name: Package artifacts
+          command: df -h
+      - run:
+          command: /bin/bash -c "./sleep-proc"
+  W_TAU:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Pause 4 seconds then scan the webhook secrets
+          command: |
+            mkdir -p /tmp/store-C
+            { set +o pipefail 2>/dev/null; echo "that's all folks" >/tmp/p0.log && cat /tmp/p0.log; true ; } > /tmp/store-C/IMG83806
+            echo "produced $(wc -l </tmp/store-C/IMG83806) lines"
+      - persist_to_workspace:
+          root: /tmp/store-C
+          paths:
+            - 'IMG83806'
+  PackageStaging:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Attach upstream
+          command: |
+            cat /tmp/store-C/IMG83806 2>/dev/null | tee /dev/null | md5sum | cut -c1-8 || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 2 -q --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar --extract --gzip --file=release-blobs-final.tgz
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          name: Package artifacts
+          command: df -h
+      - run:
+          command: /bin/bash -c "./sleep-proc"
+  mrSullivan:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Produce fixture C
+          command: |
+            mkdir -p /tmp/store-C
+            { set +o pipefail 2>/dev/null; gzip -c /etc/hosts >"/tmp/meeting-stub-session.gz" && zcmp /etc/hosts "/tmp/meeting-stub-session.gz" && echo same; true ; } > /tmp/store-C/CEDAR
+            echo "produced $(wc -l </tmp/store-C/CEDAR) lines"
+      - persist_to_workspace:
+          root: /tmp/store-C
+          paths:
+            - 'CEDAR'
+  tweak-edge-crash:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Attach upstream
+          command: |
+            cat /tmp/store-C/CEDAR 2>/dev/null | tee /dev/null | md5sum | cut -c1-8 || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 2 -q --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar --extract --gzip --file=release-blobs-final.tgz
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          name: Package artifacts
+          command: df -h
+      - run:
+          command: /bin/bash -c "./sleep-proc"
+  xrayQuiver:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Randomize cutscene low res
+          command: |
+            mkdir -p /tmp/store-C
+            { set +o pipefail 2>/dev/null; set -- paris dublin lisbon toronto madrid; echo "$2"; true ; } > /tmp/store-C/v3c7or.n3u7ron.c4che.v4ult
+            echo "produced $(wc -l </tmp/store-C/v3c7or.n3u7ron.c4che.v4ult) lines"
+      - persist_to_workspace:
+          root: /tmp/store-C
+          paths:
+            - 'v3c7or.n3u7ron.c4che.v4ult'
+  APP-907:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Attach upstream
+          command: |
+            cat /tmp/store-C/ORD-8290-UO 2>/dev/null | tee /dev/null | md5sum | cut -c1-8 || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 2 -q --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar --extract --gzip --file=release-blobs-final.tgz
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          name: Package artifacts
+          command: df -h
+      - run:
+          command: /bin/bash -c "./sleep-proc"
+  q0:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: The slow query log should be defragmented first
+          command: |
+            mkdir -p /tmp/store-C
+            { set +o pipefail 2>/dev/null; cp /etc/os-release /tmp/ufinal.tmp && sed -i.orig 's/^NAME=/OS_NAME=/' /tmp/ufinal.tmp && tail -n 2 /tmp/ufinal.tmp; true ; } > /tmp/store-C/822.Molten
+            echo "produced $(wc -l </tmp/store-C/822.Molten) lines"
+      - persist_to_workspace:
+          root: /tmp/store-C
+          paths:
+            - '822.Molten'
+  PROD_CHECK_5:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Attach upstream
+          command: |
+            cat /tmp/store-C/822.Molten 2>/dev/null | tee /dev/null | md5sum | cut -c1-8 || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 2 -q --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar --extract --gzip --file=release-blobs-final.tgz
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          name: Package artifacts
+          command: df -h
+      - run:
+          command: /bin/bash -c "./sleep-proc"
+  connectRectNonce:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Weekly staging of the node pool
+          command: |
+            mkdir -p /tmp/store-C
+            { set +o pipefail 2>/dev/null; fold -w 28 /etc/login.defs | wc -w; true ; } > /tmp/store-C/LeptonShader
+            echo "produced $(wc -l </tmp/store-C/LeptonShader) lines"
+      - persist_to_workspace:
+          root: /tmp/store-C
+          paths:
+            - 'LeptonShader'
+  dotnet8-bench:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Attach upstream
+          command: |
+            cat /tmp/store-C/ORD-8290-UO 2>/dev/null | tee /dev/null | md5sum | cut -c1-8 || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 2 -q --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar --extract --gzip --file=release-blobs-final.tgz
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          name: Package artifacts
+          command: df -h
+      - run:
+          command: /bin/bash -c "./sleep-proc"
+  galaxy-node-command:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Carry out a full deletion of the build artifacts
+          command: |
+            mkdir -p /tmp/store-C
+            { set +o pipefail 2>/dev/null; ps -eo rss= | sort -nr; true ; } > /tmp/store-C/20190525
+            echo "produced $(wc -l </tmp/store-C/20190525) lines"
+      - persist_to_workspace:
+          root: /tmp/store-C
+          paths:
+            - '20190525'
+  dan-verify:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Attach upstream
+          command: |
+            cat /tmp/store-C/20270604_044620 2>/dev/null | tee /dev/null | md5sum | cut -c1-8 || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 2 -q --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar --extract --gzip --file=release-blobs-final.tgz
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          name: Package artifacts
+          command: df -h
+      - run:
+          command: /bin/bash -c "./sleep-proc"
+  web-full-v5:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Mind optimizing the search index
+          command: |
+            mkdir -p /tmp/store-C
+            { set +o pipefail 2>/dev/null; if [[ -f ${HOME}/.bashrc ]] ; then echo yes; else echo no; fi; true ; } > /tmp/store-C/pulsedream
+            echo "produced $(wc -l </tmp/store-C/pulsedream) lines"
+      - persist_to_workspace:
+          root: /tmp/store-C
+          paths:
+            - 'pulsedream'
+  refactor-7723:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Attach upstream
+          command: |
+            cat /tmp/store-C/20270604_044620 2>/dev/null | tee /dev/null | md5sum | cut -c1-8 || true
+      - run:
+          name: Materialize tree
+          command: git clone --depth 2 -q --no-single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar --extract --gzip --file=release-blobs-final.tgz
+      - run:
+          name: Hash artifacts
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          name: Package artifacts
+          command: df -h
+      - run:
+          command: /bin/bash -c "./sleep-proc"
+
+  category-pretzel-row-banana:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Produce fixture C
+          command: |
+            mkdir -p /tmp/store-C
+            set +o pipefail 2>/dev/null; while IFS= read -r l; do echo "[${l}]"; done < <(seq 1 10000) > /tmp/store-C/ZINC_NEUTRON_LOADER_FILTER; true
+            echo "produced $(wc -l </tmp/store-C/ZINC_NEUTRON_LOADER_FILTER) lines"
+      - persist_to_workspace:
+          root: /tmp/store-C
+          paths:
+            - 'ZINC_NEUTRON_LOADER_FILTER'
+  arg:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Scan Cold Room
+          command: |
+            mkdir -p /tmp/store-C
+            { set +o pipefail 2>/dev/null; mkdir -p "${TMPDIR:-/tmp}/payroll_copy"/billing && rm -rf "${TMPDIR:-/tmp}/payroll_copy" && echo removed; true ; } > /tmp/store-C/snapshot-v9.1.33
+            echo "produced $(wc -l </tmp/store-C/snapshot-v9.1.33) lines"
+      - persist_to_workspace:
+          root: /tmp/store-C
+          paths:
+            - 'snapshot-v9.1.33'
+  ndevice:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Produce fixture C
+          command: |
+            mkdir -p /tmp/store-C
+            { set +o pipefail 2>/dev/null; locale -a | nl | tac; true ; } > /tmp/store-C/CEDAR
+            echo "produced $(wc -l </tmp/store-C/CEDAR) lines"
+      - persist_to_workspace:
+          root: /tmp/store-C
+          paths:
+            - 'CEDAR'
+  OUTP2D:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Escalate to Mei
+          command: |
+            mkdir -p /tmp/store-C
+            { set +o pipefail 2>/dev/null; compgen -c | tail -4; true ; } > /tmp/store-C/ROM_Burst
+            echo "produced $(wc -l </tmp/store-C/ROM_Burst) lines"
+      - persist_to_workspace:
+          root: /tmp/store-C
+          paths:
+            - 'ROM_Burst'
+  svc_init:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: GIF preview export PASS
+          command: |
+            mkdir -p /tmp/store-C
+            { set +o pipefail 2>/dev/null; (trap 'echo cleaning up' EXIT; echo 'hi'); true ; } > /tmp/store-C/822.Molten
+            echo "produced $(wc -l </tmp/store-C/822.Molten) lines"
+      - persist_to_workspace:
+          root: /tmp/store-C
+          paths:
+            - '822.Molten'
+  rst_req_hr:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Book the bank feed period 2
+          command: |
+            mkdir -p /tmp/store-C
+            { set +o pipefail 2>/dev/null; cat /etc/os-release | grep -i NAME | nl; true ; } > /tmp/store-C/bronze805
+            echo "produced $(wc -l </tmp/store-C/bronze805) lines"
+      - persist_to_workspace:
+          root: /tmp/store-C
+          paths:
+            - 'bronze805'
+  tRACe_vErsioN:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: FollowUpWithOnCall
+          command: |
+            mkdir -p /tmp/store-C
+            { set +o pipefail 2>/dev/null; grep -hRI alias /etc/skel | cut -d: -f1 | sort -u; true ; } > /tmp/store-C/sparksilver
+            echo "produced $(wc -l </tmp/store-C/sparksilver) lines"
+      - persist_to_workspace:
+          root: /tmp/store-C
+          paths:
+            - 'sparksilver'
+  a355ccf430ba39a6db390:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: CLEAN notification
+          command: |
+            mkdir -p /tmp/store-C
+            { set +o pipefail 2>/dev/null; cut -f3 -d: /etc/group|tail -n 5|sort -n|uniq -c|tr '[:lower:]' '[:upper:]'; true ; } > /tmp/store-C/meadow549
+            echo "produced $(wc -l </tmp/store-C/meadow549) lines"
+      - persist_to_workspace:
+          root: /tmp/store-C
+          paths:
+            - 'meadow549'
+  mergeImport:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Now close the revenue split
+          command: |
+            mkdir -p /tmp/store-C
+            { set +o pipefail 2>/dev/null; echo done | sed -e 's/a/A/g' -e 's/r/R/g'; true ; } > /tmp/store-C/AMBER_GLACIER_BRAMBLE_RASTER
+            echo "produced $(wc -l </tmp/store-C/AMBER_GLACIER_BRAMBLE_RASTER) lines"
+      - persist_to_workspace:
+          root: /tmp/store-C
+          paths:
+            - 'AMBER_GLACIER_BRAMBLE_RASTER'
+  lable:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: dev side badging
+          command: |
+            mkdir -p /tmp/store-C
+            { set +o pipefail 2>/dev/null; echo '   leading spaces' >/tmp/localno.csv && du -h /tmp/localno.csv; true ; } > /tmp/store-C/IMG83806
+            echo "produced $(wc -l </tmp/store-C/IMG83806) lines"
+      - persist_to_workspace:
+          root: /tmp/store-C
+          paths:
+            - 'IMG83806'
+  edge_window_var_bus_cream:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/store-C
+      - run:
+          name: Round ten
+          command: |
+            mkdir -p /tmp/store-C
+            { set +o pipefail 2>/dev/null; bigger() { echo "$#"; }; bigger bear cat tiger goose; true ; } > /tmp/store-C/access.log.5
+            echo "produced $(wc -l </tmp/store-C/access.log.5) lines"
+      - persist_to_workspace:
+          root: /tmp/store-C
+          paths:
+            - 'access.log.5'
+workflows:
+  main:
+    jobs:
+      - qZexTw8ouAIu
+      - category-pretzel-row-banana:
+          requires:
+            - qZexTw8ouAIu
+      - Run_Tests6:
+          requires:
+            - category-pretzel-row-banana
+      - fireProduct:
+          requires:
+            - category-pretzel-row-banana
+      - arg:
+          requires:
+            - fireProduct
+      - canary-v8:
+          requires:
+            - arg
+      - mrSullivan:
+          requires:
+            - arg
+      - ndevice:
+          requires:
+            - mrSullivan
+      - tweak-edge-crash:
+          requires:
+            - ndevice
+      - rVel
+      - xi-test:
+          requires:
+            - rVel
+      - FLAG_NEXT:
+          requires:
+            - rVel
+      - LAB_VERIFY_1:
+          requires:
+            - FLAG_NEXT
+      - expMgr:
+          requires:
+            - FLAG_NEXT
+      - rigel-rev:
+          requires:
+            - expMgr
+      - badge_cell
+      - web-full-v5
+      - DAT_5af5aa
+      - node20-bench:
+          requires:
+            - badge_cell
+            - web-full-v5
+            - DAT_5af5aa
+      - refactor-7723:
+          requires:
+            - badge_cell
+            - web-full-v5
+            - DAT_5af5aa
+      - ship-it:
+          requires:
+            - badge_cell
+            - web-full-v5
+            - DAT_5af5aa
+      - dan-verify:
+          requires:
+            - badge_cell
+            - web-full-v5
+            - DAT_5af5aa
+      - q4-release:
+          requires:
+            - badge_cell
+            - web-full-v5
+            - DAT_5af5aa
+      - may1-ship:
+          requires:
+            - badge_cell
+            - web-full-v5
+            - DAT_5af5aa
+      - verify-nightly-docker-image:
+          requires:
+            - badge_cell
+            - web-full-v5
+            - DAT_5af5aa
+      - ShipStaging:
+          requires:
+            - badge_cell
+            - web-full-v5
+            - DAT_5af5aa
+      - v1-nightly:
+          requires:
+            - badge_cell
+            - web-full-v5
+            - DAT_5af5aa
+      - commit_server_throws
+      - glyphs2
+      - merge-asset-deep
+      - vb:
+          requires:
+            - commit_server_throws
+            - glyphs2
+            - merge-asset-deep
+      - VERIFY_UAT:
+          requires:
+            - commit_server_throws
+            - glyphs2
+            - merge-asset-deep
+      - java17-fmt:
+          requires:
+            - commit_server_throws
+            - glyphs2
+            - merge-asset-deep
+      - APP-907:
+          requires:
+            - commit_server_throws
+            - glyphs2
+            - merge-asset-deep
+      - dotnet8-bench:
+          requires:
+            - commit_server_throws
+            - glyphs2
+            - merge-asset-deep
+      - zed-push:
+          requires:
+            - commit_server_throws
+            - glyphs2
+            - merge-asset-deep
+      - sanity:
+          requires:
+            - commit_server_throws
+            - glyphs2
+            - merge-asset-deep
+      - label__action
+      - OUTP2D:
+          requires:
+            - label__action
+      - ken-test:
+          requires:
+            - OUTP2D
+      - q0:
+          requires:
+            - OUTP2D
+      - svc_init:
+          requires:
+            - q0
+      - PROD_CHECK_5:
+          requires:
+            - svc_init
+      - choose-unless:
+          requires:
+            - svc_init
+      - rst_req_hr:
+          requires:
+            - choose-unless
+      - dp-2a:
+          requires:
+            - rst_req_hr
+      - filterGANNonce:
+          requires:
+            - rst_req_hr
+      - tRACe_vErsioN:
+          requires:
+            - filterGANNonce
+      - intergration:
+          requires:
+            - tRACe_vErsioN
+      - Plugin-Gradient-Email:
+          requires:
+            - tRACe_vErsioN
+      - a355ccf430ba39a6db390:
+          requires:
+            - Plugin-Gradient-Email
+      - fix-metrics-crash:
+          requires:
+            - a355ccf430ba39a6db390
+      - lock-apricot:
+          requires:
+            - a355ccf430ba39a6db390
+      - mergeImport:
+          requires:
+            - lock-apricot
+      - BUILD_STG:
+          requires:
+            - mergeImport
+      - W_TAU:
+          requires:
+            - mergeImport
+      - lable:
+          requires:
+            - W_TAU
+      - PackageStaging:
+          requires:
+            - lable
+      - accentOrchid:
+          requires:
+            - lable
+      - edge_window_var_bus_cream:
+          requires:
+            - accentOrchid
+      - fix-metrics-reload:
+          requires:
+            - edge_window_var_bus_cream
